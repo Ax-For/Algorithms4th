@@ -18,6 +18,7 @@ public class TestDemo {
         }
     }
 
+    // 增加单元测试
     @Test
     public void testGcd()
     {
