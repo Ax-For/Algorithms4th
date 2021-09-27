@@ -1,6 +1,5 @@
 package org.study;
 
-import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdRandom;
 
@@ -34,10 +33,10 @@ public class VisualAccumulator {
     }
 
     public static void main(String[] args) {
-        int T = 4000;
+        int T = 6000;
         VisualAccumulator accumulator = new VisualAccumulator(T, 1.0);
         for (int i = 0; i < T; i++) {
-            if (StdRandom.uniform() < 0.5) accumulator.addDataVal(StdRandom.gaussian(0.4, 0.05));
+            if (StdRandom.uniform() < 0.5) accumulator.addDataVal(StdRandom.gaussian(0.3, 0.1));
             else accumulator.addDataVal(StdRandom.gaussian(0.6, 0.05));
         }
         System.out.println("mean: " + accumulator.getTotal() / accumulator.getN());
