@@ -16,37 +16,28 @@ public class QuickPair {
         sort(a, b, 0, a.length - 1);
     }
 
-    private static int partition(int[] a, int[] b, int low, int high){
-        int i = low - 1, j = high + 1, ii = 0;
-        int v = b[low];
-        while (true){
-            while(a[++i] < v) if(i == high) break;
-            while(a[--j] > v) if(j == low) break;
+    private static int partition(int[] a, int[] b, int low, int high, int k){
+        int i = low, j = high + 1;
+        int v = b[k];
+        int ii;
+        for (ii = low; ii <= high; ii++) {
+            if(a[ii] == v) break;
+        }
+        exch(a, low, ii);
+        while (true) {
+            while (a[++i] < v) if (i == high) break;
+            while (a[--j] > v) if (j == low) break;
             if (i >= j) break;
             exch(a, i, j);
-//            if (a[i] == v) ii = i;
-//            if (a[j] == v) ii = j;
         }
-//        if(a[j] != v)
-//            exch(a, i, ii);
-        v = a[j];
-        int k = low - 1, l = high + 1;
-        while (true){
-            while(b[++k] < v) if(k == high) break;
-            while(b[--l] > v) if(l == low) break;
-            if (k >= l) break;
-            exch(b, k, l);
-//            if (b[k] == v) ii = k;
-//            if (b[l] == v) ii = l;
-        }
-//        if(b[l] != v)
-//            exch(b, k, ii);
+        exch(a, low, j);
         return j;
     }
 
     public static void sort(int[] a, int[] b, int low, int high){
         if(low >= high) return;
-        int mid = partition(a, b, low, high);
+        int mid = partition(a, b, low, high, low);
+        partition(b, a,low, high,mid);
         sort(a, b, low, mid - 1);
         sort(a, b, mid + 1, high);
     }
@@ -59,7 +50,7 @@ public class QuickPair {
 
 
     public static void main(String[] args) {
-        int N = 20;
+        int N = 10;
         int[] a = new int[N];
         int[] b = new int[N];
         for (int i = 0; i < N; i++) {
