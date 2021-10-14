@@ -195,47 +195,85 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public Key select(int rank) {
-
+        if (rank <= 0 || rank > size()) throw new IllegalArgumentException("argument to rank() is invalid");
+        return select(root, rank);
     }
 
     private Key select(Node x, int rank) {
-
+        if (x == null) return null;
+        int leftSize = size(x.left);
+        if (leftSize > rank) return select(x.left, rank);
+        else if (leftSize < rank) return select(x.right, rank - leftSize - 1);
+        else return x.key;
     }
 
     public int rank(Key key) {
-
+        if (key == null) throw new IllegalArgumentException("calls rank() with a null key");
+        return rank(key, root);
     }
 
     private int rank(Key key, Node x) {
-
+        if (x == null) return 0;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) return rank(key, x.left);
+        else if (cmp > 0) return size(x.left) + 1 + rank(key, x.left);
+        return size(x.left);
     }
 
     public Iterable<Key> keys() {
-
+        if (isEmpty()) return new Queue<>();
+        else return keys(min(), max());
     }
 
     public Iterable<Key> keys(Key lo, Key hi) {
-
+        if (lo == null || hi == null) throw new IllegalArgumentException("argument to keys() with a null key");
+        if (lo.compareTo(hi) > 0) throw new IllegalArgumentException("argument hi can not be less than lo");
+        Queue<Key> queue = new Queue<>();
+        keys(root, queue, lo, hi);
+        return queue;
     }
 
     private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {
-
+        if (x == null) return;
+        int cmpLo = lo.compareTo(x.key);
+        int cmpHi = hi.compareTo(x.key);
+        if (cmpLo < 0) keys(x.left, queue, lo, hi);
+        if (cmpLo <= 0 && cmpHi >= 0) queue.enqueue(x.key);
+        if (cmpHi > 0) keys(x.right, queue, lo , hi);
     }
 
     public int size(Key lo, Key hi) {
-
+        if (lo == null || hi == null) throw new IllegalArgumentException("argument to keys() with a null key");
+        int loRank = rank(lo);
+        int hiRank = rank(hi);
+        if (contains(hi)) return hiRank - loRank + 1;
+        else return hiRank - loRank;
     }
 
     public int height() {
-
+        return height(root);
     }
 
     private int height(Node x) {
-
+        if (x == null) return -1;
+        else return Math.max(height(x.left), height(x.right)) + 1;
     }
 
-    public Iterable<Key> levelOrder() {
 
+    // 层序遍历
+    public Iterable<Key> levelOrder() {
+        Queue<Node> nodes = new Queue<>();
+        Queue<Key> keys = new Queue<>();
+        if (isEmpty()) return keys;
+        nodes.enqueue(root);
+        while (!nodes.isEmpty()){
+            Node node = nodes.dequeue();
+            if (node == null) continue;
+            keys.enqueue(node.key);
+            nodes.enqueue(node.left);
+            nodes.enqueue(node.right);
+        }
+        return keys;
     }
 
     /*************************************************************************
@@ -294,7 +332,7 @@ public class BST<Key extends Comparable<Key>, Value> {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        BST<String, Integer> st = new BST<String, Integer>();
+        BST<String, Integer> st = new BST<>();
         for (int i = 0; !StdIn.isEmpty(); i++) {
             String key = StdIn.readString();
             st.put(key, i);
@@ -303,7 +341,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         for (String s : st.levelOrder())
             StdOut.println(s + " " + st.get(s));
 
-        StdOut.println();
+        StdOut.println("==========================");
 
         for (String s : st.keys())
             StdOut.println(s + " " + st.get(s));
