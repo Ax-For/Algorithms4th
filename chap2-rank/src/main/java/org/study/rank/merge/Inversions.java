@@ -4,6 +4,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import org.study.rank.Rank;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 // 在自然对数时间内计算数组的【倒置】数目
 public class Inversions extends Rank {
