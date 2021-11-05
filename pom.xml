@@ -12,6 +12,7 @@
         <module>chap1-base</module>
         <module>chap2-rank</module>
         <module>chap3-search</module>
+        <module>chap4-graphs</module>
     </modules>
 
     <properties>
