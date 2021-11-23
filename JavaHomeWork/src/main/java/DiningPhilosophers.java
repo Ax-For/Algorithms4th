@@ -5,7 +5,6 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * 多线程解决哲学家进餐问题
  * 假设对哲学家按顺时针编号，哲学家右边的叉子与哲学家拥有相同编号
- *
  * @author dongyafei
  * @date 2021/11/23
  */
