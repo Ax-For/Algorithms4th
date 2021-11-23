@@ -13,6 +13,7 @@
         <module>chap2-rank</module>
         <module>chap3-search</module>
         <module>chap4-graphs</module>
+        <module>JavaHomeWork</module>
     </modules>
 
     <properties>
